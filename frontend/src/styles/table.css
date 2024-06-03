@@ -1,0 +1,69 @@
+
+.TableContainer{
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    border-radius: 20px;
+    height: 450px;
+    overflow-y: scroll;
+}
+.BookHead{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.BookButton{
+    background-color: transparent;
+    color: black;
+    border: 2px solid rgb(146, 143, 143);
+    margin-right: 50px;
+    height: max-content;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+table{
+    color: black;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+}
+
+tr,th,td{
+    height: 30px;
+    width: 400px;
+    padding: 10px;
+    text-align: center;
+}
+h2{
+    margin-left: 50px;
+}
+.addBook{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid blue;
+}
+.addButton{
+    margin-top: 20px;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid green;
+    margin-right: 30px;
+    height: 30px;
+}
+.cancelButton{
+    margin-top: 20px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid red;
+    height: 30px;
+}
+input{
+   margin-top: 20px;
+   height: 10px;
+   padding: 10px;
+   border-radius: 10px;
+}

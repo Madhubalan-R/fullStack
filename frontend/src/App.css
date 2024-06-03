@@ -1,0 +1,75 @@
+body{
+  background-color: rgb(181, 250, 250);
+  padding: 0px;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.bookImage{
+  height: 550px;
+  width: 400px;
+  text-align: center;
+  margin-top: 30px;
+}
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  background-color: whitesmoke;
+  padding: 20px;
+  width: 400px;
+  margin-top:80px;
+}
+.nameBar{
+ height: 20px;
+ width: 380px;
+ padding: 10px;
+ margin-bottom: 20px;
+}
+.passwordBar{
+  height: 20px;
+  width: 380px;
+  padding: 10px;
+ margin-bottom: 20px;
+ }
+ .loginButton{
+  height: 40px;
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  background-color: aqua;
+  border: none;
+  border-radius: 10px;
+ }
+ .AdminNavbar{
+  display: flex;
+  justify-content: end;
+  
+ }
+.adminButton{
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: aqua;
+  border: 2px solid rgb(42, 253, 253);
+}
+.adminButton:hover{
+  background-color: white;
+}
+a{
+  color: blue;
+  
+}
+.tokenBar{
+  height: 20px;
+  width: max-content;
+  padding: 10px;
+  border: 1px solid black;
+}
+
