@@ -1,0 +1,51 @@
+.userDashboard{
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 40px;
+    border-top-left-radius: 30px;
+    padding: 10px;
+}
+.UserDatacontainer{
+ display: flex;
+ justify-content: space-around;
+ flex-direction: row;
+ gap: 20px;
+ padding: 20px;
+ 
+}
+.backButton{
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+    background-color: aqua;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+  }
+  .bookImages{
+    display: flex;
+    height: 200px;
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 20px;
+    overflow-x: scroll;
+  }
+img{
+    height: 200px;
+    width: 200px;
+    margin-left: 20px;
+    background-color: whitesmoke;
+    
+}
+.TableContainer{
+    padding: 20px;
+    margin-top: 20px;
+}
+h1{
+    margin-left: 20px;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+}
