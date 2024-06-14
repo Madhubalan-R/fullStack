@@ -24,8 +24,7 @@ const UserBooklist: React.FC = () => {
         setError('Error fetching books');
       }
     };
-
-    fetchBooks();
+  fetchBooks();
   }, []);
   return (
     <>
