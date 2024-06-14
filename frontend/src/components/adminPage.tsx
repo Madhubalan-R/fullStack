@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "../styles/adminPage.css"
 import BookTable from './bookTable';
 import UserTable from './userTable';
 import Logo from './logo';
 import UserBookTable from './userbookTable';
+import { useNavigate } from 'react-router-dom';
 
 /*const BackButton: React.FC = () => {
   const handleAdminClick = () => {
@@ -18,11 +19,25 @@ import UserBookTable from './userbookTable';
 };*/
 
 const UserBookData: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/admin'); // Redirect to login page if token is not found
+    }
+  }, [navigate]);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/admin'); // Redirect to login page after logout
+  };
+
 return (<>
     <Logo/><div className='userDashboard'>
     <div className='navbar'>
       <h1>Welcome your Dashboard</h1>
-      <button onClick={() => localStorage.removeItem('token')} className='backButton'>Logout</button>
+      <button onClick={logout} className='backButton'>Logout</button>
       </div>
       <div className='UserDatacontainer'>
       <UserTable/>

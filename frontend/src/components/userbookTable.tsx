@@ -12,18 +12,18 @@ interface Book {
 }
 
 interface UserBook {
-  ID: number;
+  UBID: number;
   username: User;
   bookname: Book;
   startdate: string;
   enddate: string;
 }
 
-const UserBookTable: React.FC = () => {
+const BorrowBookList: React.FC = () => {
   const [userBooks, setUserBooks] = useState<UserBook[]>([]);
   const [error, setError] = useState('');
-
-  //const [isBorrowing, setIsBorrowing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editBorrow, setEditBorrow] = useState<UserBook | null>(null);
 
   useEffect(() => {
     const fetchUserBooks = async () => {
@@ -43,7 +43,64 @@ const UserBookTable: React.FC = () => {
     fetchUserBooks();
   }, []);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (isEditing && editBorrow) {
+      setEditBorrow({ ...editBorrow, [name]: value });
+    }
+  };
 
+  const handleDeleteBook = async (UBID: number) => {
+    try {
+      const response = await fetch(`http://localhost:3090/admin/deleteUB/${UBID}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Error deleting book');
+      }
+      setUserBooks(userBooks.filter(userBook => userBook.UBID !== UBID));
+    } catch (err: any) {
+      setError(`Error deleting book: ${err.message}`);
+    }
+  };
+
+  const handleEditBook = (userBook: UserBook) => {
+    setEditBorrow(userBook);
+    setIsEditing(true);
+  };
+
+  const handleUpdateBook = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editBorrow) return;
+
+    try {
+      const response = await fetch(`http://localhost:3090/admin/updateUB/${editBorrow.UBID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(editBorrow)
+
+      });
+      console.log(response);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating book');
+      }
+      const updatedBorrow = await response.json();
+
+      setUserBooks(userBooks.map(userBook => (userBook.UBID === updatedBorrow.UBID ? updatedBorrow : userBook)));
+      setIsEditing(false);
+      setEditBorrow(null);
+    } catch (err: any) {
+      setError(`Error updating book: ${err.message}`);
+    }
+  };
 
   return (
     <>
@@ -51,7 +108,6 @@ const UserBookTable: React.FC = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <div className="BookHead">
           <h2>Borrowed Books</h2>
-      {/*<button type="button" className="BookButton" onClick={() => setIsBorrowing(true)}>Borrow New Book</button>*/}
         </div>
         <table>
           <thead>
@@ -62,12 +118,13 @@ const UserBookTable: React.FC = () => {
               <th>Username</th>
               <th>Start Date</th>
               <th>End Date</th>
+              <th>Actions</th>
             </tr>
             <hr />
           </thead>
           <tbody>
             {userBooks.map((userBook) => (
-              <React.Fragment key={userBook.ID}>
+              <React.Fragment key={userBook.UBID}>
                 <tr>
                   <td>{userBook.bookname.ID}</td>
                   <td>{userBook.bookname.bookname}</td>
@@ -75,6 +132,10 @@ const UserBookTable: React.FC = () => {
                   <td>{userBook.username.username}</td>
                   <td>{new Date(userBook.startdate).toLocaleDateString()}</td>
                   <td>{new Date(userBook.enddate).toLocaleDateString()}</td>
+                  <td>
+                    <button onClick={() => handleEditBook(userBook)}>Edit</button>
+                    <button onClick={() => handleDeleteBook(userBook.UBID)}>Delete</button>
+                  </td>
                 </tr>
                 <hr />
               </React.Fragment>
@@ -82,18 +143,19 @@ const UserBookTable: React.FC = () => {
           </tbody>
         </table>
       </div>
-      {/*isBorrowing && (
+      {isEditing && (
         <div className='borrowForm'>
-          <h3>Borr</h3>
-          <form onSubmit={handleBorrowBook}>
+          <h3>Edit Book</h3>
+          <form onSubmit={handleUpdateBook}>
             <div>
               <label>Username:</label>
               <input
                 type="text"
                 name="username"
-                value={newBorrow.username}
+                value={editBorrow?.username.username}
                 onChange={handleInputChange}
                 required
+                disabled // Disable editing username during update
               />
             </div>
             <div>
@@ -101,9 +163,10 @@ const UserBookTable: React.FC = () => {
               <input
                 type="text"
                 name="bookname"
-                value={newBorrow.bookname}
+                value={editBorrow?.bookname.bookname}
                 onChange={handleInputChange}
                 required
+                disabled // Disable editing book name during update
               />
             </div>
             <div>
@@ -111,7 +174,7 @@ const UserBookTable: React.FC = () => {
               <input
                 type="date"
                 name="startdate"
-                value={newBorrow.startdate}
+                value={editBorrow?.startdate}
                 onChange={handleInputChange}
                 required
               />
@@ -121,18 +184,18 @@ const UserBookTable: React.FC = () => {
               <input
                 type="date"
                 name="enddate"
-                value={newBorrow.enddate}
+                value={editBorrow?.enddate}
                 onChange={handleInputChange}
                 required
               />
             </div>
-            <button type="submit" className='addButton'>Borrow Book</button>
-            <button type="button" className='cancelButton' onClick={() => setIsBorrowing(false)}>Cancel</button>
+            <button type="submit" className='addButton'>Update Book</button>
+            <button type="button" className='cancelButton' onClick={() => { setIsEditing(false); setEditBorrow(null); }}>Cancel</button>
           </form>
         </div>
-      )*/}
+      )}
     </>
   );
 };
 
-export default UserBookTable;
+export default BorrowBookList;

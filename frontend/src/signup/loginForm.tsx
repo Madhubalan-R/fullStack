@@ -15,7 +15,9 @@ const LoginForm: React.FC = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
-    });
+      
+      
+    });console.log(response);
 
     if (response.ok) {
       // Redirect to userDetails page on successful signup
@@ -43,7 +45,7 @@ const LoginForm: React.FC = () => {
           <label>
           <input type='password' name='password'  className='nameBar' placeholder='password' value={password}  onChange={(e) => setPassword(e.target.value)}required/>
          </label><br />
-          <button type='submit' className='loginButton'>Login</button><br />
+          <button type='submit' className='loginButton' >Login</button><br />
           <p>
             I haven't Account
             <a onClick={handleSignInClick} href='/'> SIGNUP</a>

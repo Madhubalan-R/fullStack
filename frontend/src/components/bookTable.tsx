@@ -49,7 +49,7 @@ const BookTable: React.FC = () => {
         throw new Error('Error adding book');
       }
       const addedBook = await response.json();
-      setBooks([...books, addedBook]);
+      setBooks((Books) => [...Books, addedBook]); 
       setNewBook({ ID: 0, bookname: '' });
       setAddBook(false);
     } catch (err) {

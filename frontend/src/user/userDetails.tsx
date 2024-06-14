@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../styles/adminPage.css";
 import UserBooklist from './userBooklist';
 import BarrowBooklist from './borrowBooks';
 import Logo from '../components/logo';
 
 const UserBookData: React.FC = () => {
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/loginForm'); // Redirect to login page if token is not found
+    }
+  }, [navigate]);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/loginForm');  // Redirect to login page after logout
+  };
 
   return (
     <>
@@ -13,6 +26,7 @@ const UserBookData: React.FC = () => {
       <div className='userDashboard'>
         <div className='navbar'>
           <h1>Welcome To Your Dashboard</h1>
+          <button type="button" className='backButton' onClick={logout}>Logout</button>
         </div>
         <div className='UserDatacontainer'>
           <UserBooklist />
@@ -29,11 +43,9 @@ const UserBookData: React.FC = () => {
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZIgm3EjwesTWg8OFDXE5hyEUWxXPC8QCYQ&s" alt="Book8" />
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl_K8fRqhdPb8EU_aXz1VYjagTsqo1Qici2C7B4MAXqRz11p2DDi1sBZjoessTvBugVwY&usqp=CAU" alt="Book9" />
         </div>
-     </div>
+      </div>
     </>
   );
 };
 
 export default UserBookData;
-
-
